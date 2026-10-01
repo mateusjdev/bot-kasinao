@@ -1,5 +1,5 @@
 /*
-Copyright © 2026 Mateus Santana <mateusjuniordev@gmail.com>
+Copyright © 2026 Your Name <email@example.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,10 +19,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package main
+package cmd
 
-import "mateusjdev/bot-kasinao/cmd"
+import (
+	"os"
 
-func main() {
-	cmd.Execute()
+	"github.com/spf13/cobra"
+)
+
+// rootCmd represents the base command when called without any subcommands
+var rootCmd = &cobra.Command{
+	Use:   "kasinao",
+	Short: "Enviar vídeos para um grupo do telegram.",
+	Long:  `Toda vez que executado, escolhe um vídeo aleatório de uma pasta e envia para o chat do telegram configurado.`,
+}
+
+func Execute() {
+	err := rootCmd.Execute()
+	if err != nil {
+		os.Exit(1)
+	}
 }
