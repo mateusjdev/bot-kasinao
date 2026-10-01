@@ -1,5 +1,24 @@
 mediaFolder = "videos_do_kasinao/"
 runtimeFile = "runtime.json"
+legendas = [
+    "KASSINOOOO!",
+    "AEEEEEE KASINÃO!",
+    "KÉNGUEROLVER, VAI DJ!",
+    "VAI DIJEI!",
+    "KASINO AEEEEE!",
+    "O SOM DA NOITE!",
+    "AS BALADAS!",
+    "VAI DIJEI!",
+    "Kassinou!",
+    "Vai Kassinou!!",
+    "ARREBENTA!",
+    "DESTAQUE........INTERNACIONAL!",
+    "INTERNACIONAL!",
+    "AEE KASINÃO! ..O SOM DA NOITE!.. VAI DJ!",
+    "O SOM DA NOITE, VAI DIDGEEEEIIIIIIII",
+    "CAN'T GET OVER VAAAAAAI DJ.",
+    "EH SABADAÇO",
+]
 
 [telegram]
 token = "12345678:TELEGRAM_BOT_TOKEN"

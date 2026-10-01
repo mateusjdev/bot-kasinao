@@ -1,9 +1,10 @@
 /*
-Copyright © 2026 NAME HERE <EMAIL ADDRESS>
+Copyright © 2026 Mateus Santana <mateusjuniordev@gmail.com>
 */
 package cmd
 
 import (
+	"fmt"
 	"mateusjdev/bot-kasinao/internal"
 
 	"github.com/spf13/cobra"
@@ -16,7 +17,7 @@ var sendCmd = &cobra.Command{
 	Short:   "Envia o vídeo.",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// carregar configuração
-		cfg, err := internal.InitConfig()
+		cfg, err := internal.ReadConfig()
 		if err != nil {
 			return err
 		}
@@ -27,23 +28,35 @@ var sendCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
+		// Verificar arquivos
+		foundFiles, err := internal.ScanFiles(cfg.MediaFolder)
+		if err != nil {
+			return err
+		}
 		// Escolher arquivo
-		cntnt, err := internal.ReadRuntimeData(cfg.RuntimeFile)
+		rntme, err := internal.ReadRuntimeData(cfg.RuntimeFile)
 		if err != nil {
 			return err
 		}
-		arquivo, err := cntnt.EscolherArquivoAleatorio()
+		err = rntme.AddFiles(foundFiles)
 		if err != nil {
 			return err
 		}
-		caption := cntnt.EscolherFraseAleatoria()
+		arquivo, err := rntme.EscolherArquivoAleatorio()
+		if err != nil {
+			return err
+		}
+		caption := rntme.EscolherFraseAleatoria()
 		// Enviar arquivo
-		enviar, err := cmd.Flags().GetBool("dry-run")
+		testes, err := cmd.Flags().GetBool("dry-run")
 		if err != nil {
 			return err
 		}
 
-		if !enviar {
+		if testes {
+			fmt.Printf("arquivo: %s\n", arquivo)
+			fmt.Printf("mensagem: %s\n", caption)
+		} else {
 			err = tgBot.SendFile(arquivo, caption)
 			if err != nil {
 				return err
@@ -51,7 +64,7 @@ var sendCmd = &cobra.Command{
 		}
 
 		// Salvar arquivo
-		err = cntnt.Save(cfg.RuntimeFile)
+		err = rntme.Save(cfg.RuntimeFile)
 		return err
 	},
 }
@@ -60,4 +73,5 @@ func init() {
 	rootCmd.AddCommand(sendCmd)
 
 	sendCmd.Flags().BoolP("dry-run", "d", false, "Para testes, não envia o vídeo.")
+	// MAYBE: ignore-scan?
 }

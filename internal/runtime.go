@@ -23,8 +23,8 @@ type Caption struct {
 }
 
 type RuntimeData struct {
-	Files   []MediaFile `mapstructure:"files" json:"files"`
-	Message []Caption   `mapstructure:"messages" json:"messages"`
+	Files   []*MediaFile `mapstructure:"files" json:"files"`
+	Message []*Caption   `mapstructure:"messages" json:"messages"`
 }
 
 func ReadRuntimeData(filepath string) (*RuntimeData, error) {
@@ -53,7 +53,6 @@ func ReadRuntimeData(filepath string) (*RuntimeData, error) {
 	return &data, nil
 }
 func (data *RuntimeData) EscolherArquivoAleatorio() (string, error) {
-
 	tamanho := len(data.Files)
 	if tamanho <= 0 {
 		return "", errors.New("Não é possível escolher com 0 opções.")
@@ -73,6 +72,24 @@ func (data *RuntimeData) EscolherFraseAleatoria() string {
 	text := data.Message[v]
 	text.SentCounter++
 	return text.Text
+}
+
+func (data *RuntimeData) AddFiles(files map[string]bool) error {
+	kv := map[string]struct{}{}
+	for _, v := range data.Files {
+		kv[v.Path] = struct{}{}
+	}
+	for k, _ := range files {
+		_, ok := kv[k]
+		if !ok {
+			data.Files = append(data.Files, &MediaFile{
+				Path:        k,
+				SentCounter: 0,
+			})
+			fmt.Printf("Found file: %s\n", k)
+		}
+	}
+	return nil
 }
 
 func (data *RuntimeData) Save(filepath string) error {

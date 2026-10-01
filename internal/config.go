@@ -18,7 +18,7 @@ type ConfigOptions struct {
 	TelegramConfig TelegramConfig `mapstructure:"telegram"`
 }
 
-func InitConfig() (*ConfigOptions, error) {
+func ReadConfig() (*ConfigOptions, error) {
 	viperCfg := viper.New()
 	viperCfg.SetConfigName("kasinao")
 	viperCfg.SetConfigType("toml")
