@@ -1,0 +1,6 @@
+mediaFolder = "videos_do_kasinao/"
+runtimeFile = "runtime.json"
+
+[telegram]
+token = "12345678:TELEGRAM_BOT_TOKEN"
+chatId = 987654321

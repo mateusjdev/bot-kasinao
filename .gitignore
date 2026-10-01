@@ -1,0 +1,8 @@
+# file where media at
+tmp/
+
+# config file
+kasinao.toml
+
+# runtime file
+runtime.json
