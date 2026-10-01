@@ -72,7 +72,7 @@ func (data *RuntimeData) EscolherFraseAleatoria() string {
 	v := rand.IntN(tamanho)
 	text := data.Message[v]
 	text.SentCounter++
-	return ""
+	return text.Text
 }
 
 func (data *RuntimeData) Save(filepath string) error {
